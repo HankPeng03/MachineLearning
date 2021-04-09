@@ -6,7 +6,6 @@ train xDeepFM model
 @author: Ziyao Geng
 """
 
-import tensorflow as tf
 from tensorflow.keras.losses import binary_crossentropy
 from tensorflow.keras.callbacks import EarlyStopping
 from tensorflow.keras.optimizers import Adam
@@ -22,7 +21,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 if __name__ == '__main__':
     # ========================= Hyper Parameters =======================
     # you can modify your file path
-    file = '../dataset/Criteo/train.txt'
+    file = './data/criteo_sample/dac_sample.txt'
     read_part = True
     sample_num = 500000
     test_size = 0.2
@@ -34,7 +33,7 @@ if __name__ == '__main__':
 
     learning_rate = 0.001
     batch_size = 4096
-    epochs = 10
+    epochs = 2
     # ========================== Create dataset =======================
     feature_columns, train, test = create_criteo_dataset(file=file,
                                                          embed_dim=embed_dim,
@@ -62,5 +61,8 @@ if __name__ == '__main__':
         batch_size=batch_size,
         validation_split=0.1
     )
+    # ===========================Save==============================
+    save_path = "./model/model"
+    model.save_weights(save_path, save_format="tf")
     # ===========================Test==============================
     print('test AUC: %f' % model.evaluate(test_X, test_y)[1])

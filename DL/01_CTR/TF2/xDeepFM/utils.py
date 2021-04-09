@@ -49,19 +49,19 @@ def create_criteo_dataset(file, embed_dim=8, read_part=True, sample_num=100000, 
     :return: feature columns, train, test
     """
     names = ['label', 'I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7', 'I8', 'I9', 'I10', 'I11',
-             'I12', 'I13', 'C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11',
+             'I12', 'I13','C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11',
              'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', 'C19', 'C20', 'C21', 'C22',
-             'C23', 'C24', 'C25', 'C26']
+             'C23', 'C24', 'C25']
 
     if read_part:
-        data_df = pd.read_csv(file, sep='\t', iterator=True, header=None,
+        data_df = pd.read_csv(file, sep='\t', iterator=True, header=None,index_col=False,
                           names=names)
         data_df = data_df.get_chunk(sample_num)
 
     else:
-        data_df = pd.read_csv(file, sep='\t', header=None, names=names)
+        data_df = pd.read_csv(file, sep='\t', header=None, names=names, index_col=False)
 
-    sparse_features = ['C' + str(i) for i in range(1, 27)]
+    sparse_features = ['C' + str(i) for i in range(1, 26)]
     dense_features = ['I' + str(i) for i in range(1, 14)]
 
     data_df[sparse_features] = data_df[sparse_features].fillna('-1')
@@ -91,3 +91,8 @@ def create_criteo_dataset(file, embed_dim=8, read_part=True, sample_num=100000, 
     test_y = test['label'].values.astype('int32')
 
     return feature_columns, (train_X, train_y), (test_X, test_y)
+
+if __name__=="__main__":
+    file="/Users/penghao/Workspace/GitLab/MachineLearning/DL/01_CTR/TF2/xDeepFM/data/criteo_sample/dac_sample.txt"
+    feature_columns, (train_X, train_y), (test_X, test_y) = create_criteo_dataset(file, embed_dim=8, read_part=True, sample_num=1000, test_size=0.2)
+    print(feature_columns)

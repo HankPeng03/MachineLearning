@@ -28,7 +28,7 @@ if __name__ == '__main__':
     os.environ['CUDA_VISIBLE_DEVICES'] = '2, 3'
     # ========================= Hyper Parameters =======================
     # you can modify your file path
-    file = '../dataset/Criteo/train.txt'
+    file = '../data/criteo_sample/dac_sample.txt'
     read_part = True
     sample_num = 5000000
     test_size = 0.2
