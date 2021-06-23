@@ -11,7 +11,6 @@ OUTPUT_SIZE = 1
 CELL_SIZE = 10
 LR = 0.006
 
-
 def get_batch():
     global BATCH_START, TIME_STEPS
     # xs shape (50batch, 20steps)
